@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MyRequests">
+
+
+    <!--<TextView-->
+            <!--android:id="@+id/myRequestsTV"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:gravity="center"-->
+            <!--android:fontFamily="@font/architects_daughter"-->
+            <!--android:text="No requests to show    🙄 "-->
+            <!--android:textAlignment="center"-->
+            <!--android:textAllCaps="true"-->
+            <!--android:textSize="60dp"-->
+            <!--android:textStyle="bold" />-->
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_centerInParent="true">
+    <Button
+        android:id="@+id/deleteHandrequest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_centerInParent="true"
+        android:text="Delete hand request"
+        android:onClick="deleteHandCashRequest"/>
+    <Button
+        android:id="@+id/deleteOnlinerequest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="Delete online request"
+        android:onClick="deleteOnlneCashRequest"/>
+    </LinearLayout>
+</RelativeLayout>
+
+</LinearLayout>
