@@ -242,7 +242,7 @@ public class Register extends AppCompatActivity {
             _passwordText.setError(null);
         }
 
-        if (reEnterPassword.isEmpty() || (reEnterPassword.equals(password))) {
+        if (reEnterPassword.isEmpty() || !(reEnterPassword.equals(password))) {
             _reEnterPasswordText.setError("Password Do not match");
             valid = false;
         } else {
