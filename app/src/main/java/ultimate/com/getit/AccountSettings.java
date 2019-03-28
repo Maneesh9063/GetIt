@@ -5,8 +5,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -65,24 +68,35 @@ public class AccountSettings extends AppCompatActivity {
 
             }
         });
+
+        Switch aSwitch = (Switch) findViewById(R.id.mobileNoShow);
+                if (aSwitch.isChecked()) {
+                    // The toggle is enabled
+                    Purpose.mobileNOShow = true;
+                } else {
+                    // The toggle is disabled
+                    Purpose.mobileNOShow = false;
+                }
     }
 
     public void submit(View view) {
-        if(!validate()) {
+        if(validate()) {
             Map<String, Object> details = new HashMap<String, Object>();
             details.put("UName", uName.getText().toString());
             details.put("Phone", phone.getText().toString());
             details.put("Email", eMail.getText().toString());
             details.put("Name", name.getText().toString());
+            details.put("MobileNoShow", Purpose.mobileNOShow);
             mRef.updateChildren(details).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
-                    Toast.makeText(AccountSettings.this, "Successfuly Updated", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AccountSettings.this, "Successfully Updated", Toast.LENGTH_SHORT).show();
                     finish();
                 }
             });
         }
     }
+
     public boolean validate() {
         boolean valid = true;
         String vname = name.getText().toString();

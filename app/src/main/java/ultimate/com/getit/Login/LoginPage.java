@@ -20,6 +20,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.FirebaseDatabase;
 
 import ultimate.com.getit.MainActivity;
 import ultimate.com.getit.R;
@@ -114,9 +115,18 @@ public class LoginPage extends AppCompatActivity {
                         isLogin = false;
                     } else {
                         Toast.makeText(LoginPage.this, "Login Completed", Toast.LENGTH_SHORT).show();
+
+                        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+                        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                        try {
+                            FirebaseDatabase.getInstance().getReference().child("Users").child(uid).child("IsLoggedIn").setValue(true);
+                        }catch (Exception e) {
+
+                        }
                         Intent i = new Intent(LoginPage.this,MainActivity.class);
                         startActivity(i);
                         isLogin = true;
+
                     }
                 }
             });

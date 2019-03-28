@@ -62,7 +62,10 @@ public class MyOwnAdapter extends RecyclerView.Adapter<MyOwnAdapter.MHolder> {
         String time = Purpose.getTimeAgo(obj.getTimeOfRegistration());
         String dis = Purpose.distance(obj.getLatitude(),obj.getLongitude(),MainActivity.latitude,MainActivity.longitude);
             holder.nameR.setText("Name : " + obj.getName());
+        if(Purpose.mobileNOShow)
             holder.phoneR.setText("Phone : " + obj.getPhone());
+        else
+            holder.phoneR.setText("Phone : 91XXXXX");
             holder.amountR.setText("Amount : " + obj.getAmount());
             holder.timeR.setText(time);
             holder.distanceR.setText((dis));

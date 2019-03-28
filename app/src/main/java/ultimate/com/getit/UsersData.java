@@ -7,15 +7,17 @@ public class UsersData {
     private String Phone;
     private String Email;
     private String Pass;
+    private boolean MobileNOShow;
 
     public  UsersData(){}
 
-    public UsersData(String uname, String name, String phone, String email, String pass) {
+    public UsersData(String uname, String name, String phone, String email, String pass,boolean mobileNOShow) {
         UName = uname;
         Name = name;
         Phone = phone;
         Email = email;
         Pass = pass;
+        MobileNOShow = mobileNOShow;
     }
     public String getUName() {
         return UName;
@@ -55,5 +57,13 @@ public class UsersData {
 
     public void setPass(String pass) {
         Pass = pass;
+    }
+
+    public boolean isMobileNOShow() {
+        return MobileNOShow;
+    }
+
+    public void setMobileNOShow(boolean mobileNOShow) {
+        MobileNOShow = mobileNOShow;
     }
 }

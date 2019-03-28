@@ -12,6 +12,8 @@ import android.net.NetworkInfo;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -23,6 +25,8 @@ public class Purpose {
 
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
 
+    public static boolean mobileNOShow = true;
+    public   static String uid_local = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
     public static String getTimeAgo(long time) {
         if (time < 1000000000000L) {
@@ -54,27 +58,23 @@ public class Purpose {
     }
 
     public static String distance(double lat1, double lon1, double lat2, double lon2) {
-        char unit = 'K';
+//      lat1 and lon2 are from data base
+
         double theta = lon1 - lon2;
         double dist = Math.sin(deg2rad(lat1)) * Math.sin(deg2rad(lat2)) + Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.cos(deg2rad(theta));
         dist = Math.acos(dist);
         dist = rad2deg(dist);
-        dist = dist * 60 * 1.1515;
-        if (unit == 'K') {
-            dist = dist * 1.609344;
-        } else if (unit == 'N') {
-            dist = dist * 0.8684;
-        }
+        dist = dist * 60 * 1.1515* 1.609344;
         dist = Math.ceil(dist);
         int distInMeters = (int)dist*1000;
-        if (dist < 1&& dist != 0&&(lat2 != 0||lon2 != 0)) {
+        if ((dist < 1&& dist != 0)&&(lat2 != 0||lon2 != 0)&&(lat1 != 0||lon1 != 0)) {
             return (distInMeters)+" meters away";
-        } else if (dist < 100&& dist != 0&&(lat2 != 0||lon2 != 0)) {
+        } else if (dist != 0&&(lat2 != 0||lon2 != 0)&&(lat1 != 0||lon1 != 0)) {
             return (dist)+" Km away";
-        }else if(lat2 == 0||lon2 == 0) {
-            return " Permissions required";
-        }else
-            return "Far away";
+        }else if ((lat2 == 0||lon2 == 0)||(lat1 == 0||lon1 == 0))
+            return "something went wrong";
+        else
+            return "hello";
 
     }
     private static double deg2rad(double deg) {
@@ -123,6 +123,7 @@ public class Purpose {
             return true;
         }
     }
+
 
     public static   boolean checkInternet(Activity ctx) {
         ConnectivityManager connectivityManager = (ConnectivityManager) ctx.getSystemService(Context.CONNECTIVITY_SERVICE);

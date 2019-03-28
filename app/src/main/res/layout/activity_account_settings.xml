@@ -63,7 +63,23 @@
             android:layout_height="wrap_content"
             android:hint="Mobile Number"
             android:inputType="phone" />
+
     </android.support.design.widget.TextInputLayout>
+
+    <Switch
+        android:id="@+id/mobileNoShow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:checked="false"
+        android:text="Want to show ur mobile number"
+        android:textColor="@android:color/holo_red_light"
+        android:textOff="ON"
+        android:textOn="OFF"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        tools:checked="true"
+        />
 
      <!--Submit Button -->
     <Button

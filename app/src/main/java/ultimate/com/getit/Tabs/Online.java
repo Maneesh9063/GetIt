@@ -7,6 +7,7 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -51,6 +52,16 @@ public class Online extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_online, container, false);
 
+        final SwipeRefreshLayout pullToRefresh = rootView.findViewById(R.id.pullToRefreshOnline);
+        pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                fetch(); // your code
+                runLayoutAnimation(rv);
+                pullToRefresh.setRefreshing(false);
+            }
+        });
+
         details = new ArrayList<>();
         rv = (RecyclerView) rootView.findViewById(R.id.onlineList);
         tv = (TextView) rootView.findViewById(R.id.onlineTV);
@@ -67,6 +78,21 @@ public class Online extends Fragment {
 
     public void onStart() {
         super.onStart();
+        fetch();
+        runLayoutAnimation(rv);
+
+    }
+    private void runLayoutAnimation(final RecyclerView recyclerView) {
+        final Context context = recyclerView.getContext();
+        final LayoutAnimationController controller =
+                AnimationUtils.loadLayoutAnimation(context, R.anim.layout_animation_from_bottom);
+
+        recyclerView.setLayoutAnimation(controller);
+//        recyclerView.getAdapter().notifyDataSetChanged();
+        recyclerView.scheduleLayoutAnimation();
+    }
+
+    private void fetch(){
         DatabaseReference mRef = FirebaseDatabase
                 .getInstance()
                 .getReference()
@@ -80,11 +106,11 @@ public class Online extends Fragment {
                 for (DataSnapshot child : dataSnapshot.getChildren()){
                     updatingClass c = child.getValue(updatingClass.class);
 //                    if(c.getUid()!=uid) {
-                        details.add(c);
+                    details.add(c);
 //                    }
                     adapter = new MyOwnAdapter(getContext(),details);
                     rv.setAdapter(adapter);
-                    runLayoutAnimation(rv);
+//                    runLayoutAnimation(rv);
 
                 }
 
@@ -103,16 +129,6 @@ public class Online extends Fragment {
 
             }
         });
-
-    }
-    private void runLayoutAnimation(final RecyclerView recyclerView) {
-        final Context context = recyclerView.getContext();
-        final LayoutAnimationController controller =
-                AnimationUtils.loadLayoutAnimation(context, R.anim.layout_animation_from_bottom);
-
-        recyclerView.setLayoutAnimation(controller);
-//        recyclerView.getAdapter().notifyDataSetChanged();
-        recyclerView.scheduleLayoutAnimation();
     }
 
 

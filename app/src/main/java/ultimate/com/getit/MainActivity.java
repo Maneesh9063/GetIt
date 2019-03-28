@@ -21,7 +21,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
 import com.github.clans.fab.FloatingActionButton;
@@ -29,6 +28,8 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.FirebaseDatabase;
 
 import ultimate.com.getit.FAB.HandCashRegister;
 import ultimate.com.getit.FAB.OnlineCashRegister;
@@ -37,6 +38,7 @@ import ultimate.com.getit.Tabs.Cash;
 import ultimate.com.getit.Tabs.Online;
 
 import static ultimate.com.getit.Purpose.MY_PERMISSIONS_REQUEST_LOCATION;
+import static ultimate.com.getit.Purpose.uid_local;
 
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
@@ -118,16 +120,17 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         Intent intent = new Intent(MainActivity.this, LoginPage.class);
         startActivity(intent);
         finish();
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        FirebaseUser a ;
+//        a.getUid();
+        String uid = mAuth.getCurrentUser().getUid();
+        try {
+            FirebaseDatabase.getInstance().getReference().child("Users").child(uid_local).child("IsLoggedIn").setValue(false);
+        }catch (Exception e){
+
+        }
         isLoggingOut=true;
-        return;
     }
-
-
-
-//    public void onlineCash(View view) {
-//        Intent i = new Intent(MainActivity.this,OnlineCashRegister.class);
-//        startActivity(i);
-//    }
 
     public void accountSettings(MenuItem item) {
         Intent i = new Intent(MainActivity.this,AccountSettings.class);

@@ -6,6 +6,7 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -47,6 +48,7 @@ public class Cash extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
     }
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -56,16 +58,24 @@ public class Cash extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_cash, container, false);
         details = new ArrayList<>();
 
+        final SwipeRefreshLayout pullToRefresh = rootView.findViewById(R.id.pullToRefreshCash);
+        pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                fetch(); // your code
+                runLayoutAnimation(recyclerView);
+                pullToRefresh.setRefreshing(false);
+            }
+        });
+
         recyclerView = (RecyclerView)rootView.findViewById(R.id.recyclerVeiw);
         tv = (TextView)rootView.findViewById(R.id.cashTV);
         if(!Purpose.checkInternet(getActivity())){
             Toast.makeText(getContext(), "Please Connect to Internet", Toast.LENGTH_LONG).show();
         }
 
-
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
 
         return rootView;
     }
@@ -73,6 +83,20 @@ public class Cash extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+        fetch();
+//        runLayoutAnimation(recyclerView);
+    }
+    private void runLayoutAnimation(final RecyclerView recyclerView) {
+        final Context context = recyclerView.getContext();
+        final LayoutAnimationController controller =
+                AnimationUtils.loadLayoutAnimation(context, R.anim.layout_animation_from_bottom);
+
+        recyclerView.setLayoutAnimation(controller);
+//        recyclerView.getAdapter().notifyDataSetChanged();
+        recyclerView.scheduleLayoutAnimation();
+    }
+    private void fetch(){
+
         DatabaseReference mRef = FirebaseDatabase
                 .getInstance()
                 .getReference()
@@ -86,8 +110,8 @@ public class Cash extends Fragment {
                 for (DataSnapshot child : dataSnapshot.getChildren()){
                     updatingClass c = child.getValue(updatingClass.class);
 //                    if(c.getUid()!=uid) {
-                        details.add(c);
-                    runLayoutAnimation(recyclerView);
+                    details.add(c);
+//                    runLayoutAnimation(recyclerView);
 
 //                    }
                 }
@@ -110,15 +134,6 @@ public class Cash extends Fragment {
 
             }
         });
-    }
-    private void runLayoutAnimation(final RecyclerView recyclerView) {
-        final Context context = recyclerView.getContext();
-        final LayoutAnimationController controller =
-                AnimationUtils.loadLayoutAnimation(context, R.anim.layout_animation_from_bottom);
-
-        recyclerView.setLayoutAnimation(controller);
-//        recyclerView.getAdapter().notifyDataSetChanged();
-        recyclerView.scheduleLayoutAnimation();
     }
 
 }

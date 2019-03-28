@@ -136,10 +136,11 @@ public class Register extends AppCompatActivity {
                             details.put("Email",email);
                             details.put("Pass",password);
                             details.put("Name",name);
+                            details.put("MobileNoShow",true);
                             current_user_db.setValue(details).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
-                                    Toast.makeText(Register.this,"Registraion Done",Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(Register.this,"Registration Done",Toast.LENGTH_SHORT).show();
                                 }
                             });
 
