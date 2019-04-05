@@ -25,15 +25,18 @@ import com.google.firebase.database.FirebaseDatabase;
 import ultimate.com.getit.MainActivity;
 import ultimate.com.getit.R;
 
+//TODO : Forgot password feature
+
 public class LoginPage extends AppCompatActivity {
 
     private Button mlogin;
     private EditText mEmail ,mPassword;
-    private TextView mregister;
     private boolean isLogin;
 
     private FirebaseAuth mauth;
     private FirebaseAuth.AuthStateListener fireBaseAuthListner;
+
+    //Defining all required variables here
 
     private static final String TAG = "LoginActivity";
     private static final int REQUEST_SIGNUP = 0;
@@ -53,6 +56,8 @@ public class LoginPage extends AppCompatActivity {
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 if(user!=null)
                 {
+                    //if the user is already logged in it simply goes to main activity
+
                     Intent i = new Intent(LoginPage.this,MainActivity.class);
                     startActivity(i);
                     finish();
@@ -61,7 +66,9 @@ public class LoginPage extends AppCompatActivity {
         };
 
         mlogin = (Button)findViewById(R.id.login);
-        mregister = (TextView)findViewById(R.id.resgister);
+        TextView mregister = (TextView) findViewById(R.id.resgister);
+
+//      else it takes the email and password from user
 
         mEmail = findViewById(R.id.email);
         mPassword = findViewById(R.id.password);
@@ -73,6 +80,7 @@ public class LoginPage extends AppCompatActivity {
 
             }
         });
+//        calling login() method
 
         mregister.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,6 +89,7 @@ public class LoginPage extends AppCompatActivity {
                 startActivityForResult(i,REQUEST_SIGNUP);
                 finish();
                 overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+//                animating the view for changing the intent to registering
             }
         });
     }
@@ -90,6 +99,7 @@ public class LoginPage extends AppCompatActivity {
 
         if (!validate()) {
             onLoginFailed();
+//            validates the user data
             isLogin = false;
             return;
         }
@@ -102,12 +112,17 @@ public class LoginPage extends AppCompatActivity {
         progressDialog.setMessage("Authenticating...");
         progressDialog.show();
 
+//        progress dialog the main purpose here is to wait until it gets the confirmation from the server
+
         String email = mEmail.getText().toString();
         String password = mPassword.getText().toString();
 
         // TODO: Implement your own authentication logic here.
 
             mauth.signInWithEmailAndPassword(email, password).addOnCompleteListener(LoginPage.this, new OnCompleteListener<AuthResult>() {
+
+//                logins the user with the email and password
+
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (!task.isSuccessful()) {
@@ -161,13 +176,18 @@ public class LoginPage extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         mauth.addAuthStateListener(fireBaseAuthListner);
+//      TODO : need to figure out for what this is
+
     }
 
     @Override
     protected void onStop() {
         super.onStop();
         mauth.removeAuthStateListener(fireBaseAuthListner);
+//        todo : Same goes here
     }
+
+//    validating function which checks the email and password requirements
 
     public boolean validate() {
         boolean valid = true;

@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ultimate.com.getit.Adapters.arrayAdapter;
+//nothing to do with it simply testing purpose
 
 public class Test extends AppCompatActivity {
 

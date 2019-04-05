@@ -1,5 +1,8 @@
 package ultimate.com.getit.Tabs;
 
+//TODO : Schimer effect to be implemented
+//know nothing about it ...
+
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;

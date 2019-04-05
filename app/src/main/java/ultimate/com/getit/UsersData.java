@@ -1,5 +1,8 @@
 package ultimate.com.getit;
 
+//class used to get the data from the snapshot from fire base
+
+
 public class UsersData {
 
     private String UName;

@@ -78,6 +78,7 @@ public class OnlineCashRegister extends AppCompatActivity implements GoogleApiCl
                     sAmount = amount.getText().toString();
                     Map<String,Object> map = new HashMap<String,Object>();
                     if(obj!=null) {
+//                        updates everything to database
                         map.put("Name", obj.getName());
                         map.put("UName", obj.getUName());
                         map.put("Phone", obj.getPhone());

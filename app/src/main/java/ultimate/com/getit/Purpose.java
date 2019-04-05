@@ -28,6 +28,7 @@ public class Purpose {
     public static boolean mobileNOShow = true;
     public   static String uid_local = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
+//    calculate the time ..
     public static String getTimeAgo(long time) {
         if (time < 1000000000000L) {
             time *= 1000;
@@ -57,6 +58,7 @@ public class Purpose {
         }
     }
 
+//    method to check the distance
     public static String distance(double lat1, double lon1, double lat2, double lon2) {
 //      lat1 and lon2 are from data base
 

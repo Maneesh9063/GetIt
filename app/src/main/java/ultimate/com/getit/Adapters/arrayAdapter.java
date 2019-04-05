@@ -13,7 +13,7 @@ import java.util.List;
 
 import ultimate.com.getit.R;
 import ultimate.com.getit.updatingClass;
-
+//Should learn abut it...
 public class arrayAdapter extends ArrayAdapter<updatingClass> {
 
     private Context context;
@@ -33,7 +33,7 @@ public class arrayAdapter extends ArrayAdapter<updatingClass> {
         }
         TextView name = (TextView) convertView.findViewById(R.id.nameOnCard);
         TextView phone = (TextView) convertView.findViewById(R.id.phoneOnCard);
-        Button amount = (Button) convertView.findViewById(R.id.amountOnCard);
+        TextView amount = (TextView) convertView.findViewById(R.id.amountOnCard);
         name.setText(card_item.getName());
         phone.setText(card_item.getPhone());
         amount.setText(card_item.getAmount());

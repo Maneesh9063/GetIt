@@ -17,7 +17,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -40,29 +39,29 @@ import ultimate.com.getit.Tabs.Online;
 import static ultimate.com.getit.Purpose.MY_PERMISSIONS_REQUEST_LOCATION;
 import static ultimate.com.getit.Purpose.uid_local;
 
+//TODO: Had a confusion in the tabs and the tabs are reversly named here they are updating reversly
+//      Should make the location more accurate and perfect and learn about it
+//      learn about pages
+
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
-    private TabLayout mTab;
     private ViewPager mPage;
-    private boolean isLoggingOut;
     private GoogleApiClient mGoogleApiClient;
     public static double  latitude, longitude;
-    private Location mLastLocation;
-    private RecyclerView cash ,online;
-    private FloatingActionButton handFAB,onlineFAB;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mTab = (TabLayout)findViewById(R.id.mTabs);
+        TabLayout mTab = (TabLayout) findViewById(R.id.mTabs);
         mPage = (ViewPager)findViewById(R.id.tab1);
-        handFAB = (FloatingActionButton)findViewById(R.id.fabHand);
-        onlineFAB = (FloatingActionButton)findViewById(R.id.fabOnline);
+        FloatingActionButton handFAB = (FloatingActionButton) findViewById(R.id.fabHand);
+        FloatingActionButton onlineFAB = (FloatingActionButton) findViewById(R.id.fabOnline);
         mPage.setAdapter(new PagerAdapter(getSupportFragmentManager(),MainActivity.this));
 
         mTab.setupWithViewPager(mPage);
+//        need to learn the working of this
 
         mTab.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -115,23 +114,18 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     }
 
     public void logut(MenuItem item) {
-        isLoggingOut = true;
         FirebaseAuth.getInstance().signOut();
         Intent intent = new Intent(MainActivity.this, LoginPage.class);
         startActivity(intent);
         finish();
-        FirebaseAuth mAuth = FirebaseAuth.getInstance();
-        FirebaseUser a ;
-//        a.getUid();
-        String uid = mAuth.getCurrentUser().getUid();
         try {
             FirebaseDatabase.getInstance().getReference().child("Users").child(uid_local).child("IsLoggedIn").setValue(false);
         }catch (Exception e){
 
         }
-        isLoggingOut=true;
     }
 
+//    these all functions are direct from xml  onclick ...
     public void accountSettings(MenuItem item) {
         Intent i = new Intent(MainActivity.this,AccountSettings.class);
         startActivity(i);
@@ -171,23 +165,16 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             return titles[position];
         }
     }
-
+//need to know how
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.options,menu);
         return true;
     }
     public boolean checkInternet() {
-//        boolean connected ;
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         return  (connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
                 connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED);
-//        {
-//            //we are connected to a network
-//            connected = true;
-//        } else
-//            connected = false;
-//        return connected;
     }
 
     @Override
@@ -207,7 +194,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     @Override
     public void onConnected(Bundle connectionHint) {
         if(Purpose.checkLocationPermission(this)) {
-            mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+            Location mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
             if (mLastLocation != null) {
                 latitude = (mLastLocation.getLatitude());
                 longitude = (mLastLocation.getLongitude());

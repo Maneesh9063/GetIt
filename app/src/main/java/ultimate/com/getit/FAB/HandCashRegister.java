@@ -95,7 +95,7 @@ public class HandCashRegister extends AppCompatActivity implements GoogleApiClie
                     updatingClass obj = dataSnapshot.getValue(updatingClass.class);
                     mRef = FirebaseDatabase.getInstance().getReference().child("Hand").child(uid);
                     sAmount = amount.getText().toString();
-
+//updates everything to database
                     if (obj != null) {
                         map.put("Phone", obj.getPhone());
                         map.put("UName", obj.getUName());

@@ -23,6 +23,8 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.HashMap;
 import java.util.Map;
 
+//TODO : enable the mobile no show option
+
 public class AccountSettings extends AppCompatActivity {
 
     FirebaseAuth mAuth;
@@ -51,6 +53,7 @@ public class AccountSettings extends AppCompatActivity {
             Toast.makeText(AccountSettings.this,"I think ur not Logged in",Toast.LENGTH_SHORT).show();
         }
         mRef = FirebaseDatabase.getInstance().getReference().child("Users").child(uid);
+//        getting the data from database and showing up here
         mRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -78,6 +81,7 @@ public class AccountSettings extends AppCompatActivity {
                     Purpose.mobileNOShow = false;
                 }
     }
+// direct method from xml to update the changes
 
     public void submit(View view) {
         if(validate()) {

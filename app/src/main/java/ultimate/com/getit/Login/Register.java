@@ -30,6 +30,10 @@ import ultimate.com.getit.MainActivity;
 import ultimate.com.getit.Purpose;
 import ultimate.com.getit.R;
 
+/*TODO : opting mobile no to show or not
+//
+*/
+
 public class Register extends AppCompatActivity {
     private static final String TAG = "SignupActivity";
     private FirebaseAuth mAuth;
@@ -39,6 +43,8 @@ public class Register extends AppCompatActivity {
     Map<String,Object> legacy = new HashMap<String, Object>();
     int i = 0;
 
+
+//    here we used a special implementation called butter knife
     @BindView(R.id.input_name) EditText _nameText;
     @BindView(R.id.input_UName) EditText _uNameText;
     @BindView(R.id.input_email) EditText _emailText;
@@ -100,9 +106,13 @@ public class Register extends AppCompatActivity {
         final String password = _passwordText.getText().toString();
 
         // TODO: Implement your own signup logic here.
+//        ignore the simple log messages
+
         Log.d("test","is Working outside create user");
         mAuth = FirebaseAuth.getInstance();
         mAuth.createUserWithEmailAndPassword(email,password)
+//                calling a fire base function to create a new user with email and password
+
                 .addOnCompleteListener(Register.this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -120,10 +130,11 @@ public class Register extends AppCompatActivity {
                                     }
                                 }
                             };
-                            Toast.makeText(Register.this,"Problem in Registering",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Register.this,"Problem in Registering Please try after some time ",Toast.LENGTH_SHORT).show();
                         }else if(task.isSuccessful()){
                             user_id = mAuth.getCurrentUser().getUid();
                             Log.d("test",user_id);
+//                          updating the users data to our database
                             DatabaseReference current_user_db = FirebaseDatabase
                                     .getInstance()
                                     .getReference()
@@ -136,6 +147,7 @@ public class Register extends AppCompatActivity {
                             details.put("Email",email);
                             details.put("Pass",password);
                             details.put("Name",name);
+//                          mobile no show feature is still in testing ...
                             details.put("MobileNoShow",true);
                             current_user_db.setValue(details).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
@@ -180,6 +192,8 @@ public class Register extends AppCompatActivity {
 
         _signupButton.setEnabled(true);
     }
+
+//    same purpose to validate the requirements
 
     public boolean validate() {
         boolean valid = true;

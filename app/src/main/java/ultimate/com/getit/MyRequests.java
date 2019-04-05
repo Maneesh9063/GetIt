@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -21,6 +22,8 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 import ultimate.com.getit.Adapters.MyOwnAdapter;
+
+//TODO: display the requests here
 
 public class MyRequests extends AppCompatActivity {
 
@@ -58,7 +61,7 @@ public class MyRequests extends AppCompatActivity {
 
     }
 
-    public void deleteHandCashRequest(View view) {
+    public void deleteHandCashRequest(final View view) {
         final DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Hand");
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -67,6 +70,7 @@ public class MyRequests extends AppCompatActivity {
                 if(dataSnapshot.child(uid).exists()) {
                     handExists = true;
                     reference.child(uid).removeValue();
+                    Toast.makeText(view.getContext(),"Your Hand cash request was deleted ..!!",Toast.LENGTH_LONG).show();
                 }
             }
 
@@ -77,7 +81,7 @@ public class MyRequests extends AppCompatActivity {
         });
     }
 
-    public void deleteOnlneCashRequest(View view) {
+    public void deleteOnlneCashRequest(final View view) {
         final DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Online");
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -85,6 +89,8 @@ public class MyRequests extends AppCompatActivity {
                 if(dataSnapshot.child(uid).exists()) {
                     onlineExists = true;
                     reference.child(uid).removeValue();
+                    Toast.makeText(view.getContext(),"Your Online Cash request was deleted ..!!",Toast.LENGTH_LONG).show();
+
                 }
                 }
 
