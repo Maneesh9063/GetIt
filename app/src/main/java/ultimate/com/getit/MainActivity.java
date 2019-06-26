@@ -7,15 +7,15 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import com.google.android.material.tabs.TabLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.core.content.ContextCompat;
+import androidx.viewpager.widget.ViewPager;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -27,8 +27,8 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
+import com.onesignal.OneSignal;
 
 import ultimate.com.getit.FAB.HandCashRegister;
 import ultimate.com.getit.FAB.OnlineCashRegister;
@@ -75,6 +75,19 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             public void onTabReselected(TabLayout.Tab tab) {
             }
         });
+
+        OneSignal.startInit(this).init();
+        OneSignal.setSubscription(true);
+
+        OneSignal.idsAvailable(new OneSignal.IdsAvailableHandler() {
+            @Override
+            public void idsAvailable(String userId, String registrationId) {
+
+                FirebaseDatabase.getInstance().getReference().child("Users").child(FirebaseAuth.getInstance().getUid()).child("notificationKey").setValue(userId);
+            }
+        });
+        OneSignal.setInFocusDisplaying(OneSignal.OSInFocusDisplayOption.Notification);
+
         if(!checkInternet()){
             Toast.makeText(getBaseContext(), "Please Connect to Internet", Toast.LENGTH_LONG).show();
         }
@@ -114,6 +127,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     }
 
     public void logut(MenuItem item) {
+
+        OneSignal.setSubscription(false);
         FirebaseAuth.getInstance().signOut();
         Intent intent = new Intent(MainActivity.this, LoginPage.class);
         startActivity(intent);

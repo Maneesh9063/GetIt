@@ -10,6 +10,7 @@ public class UsersData {
     private String Phone;
     private String Email;
     private String Pass;
+    private String notificationKey;
     private boolean MobileNOShow;
 
     public  UsersData(){}
@@ -68,5 +69,13 @@ public class UsersData {
 
     public void setMobileNOShow(boolean mobileNOShow) {
         MobileNOShow = mobileNOShow;
+    }
+
+    public String getNotificationKey() {
+        return notificationKey;
+    }
+
+    public void setNotificationKey(String notificationKey) {
+        this.notificationKey = notificationKey;
     }
 }
